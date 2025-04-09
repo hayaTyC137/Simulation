@@ -1,11 +1,14 @@
+import Action.PopulateSpawnWorldAction;
+import Action.PopulationMakeMove;
+import GameMap.Coordinates;
+import Simulation.Simulation;
+
 public class Main {
     public static void main(String[] args) {
-        Coordinates coordinates = new Coordinates(5, 10);
-        GameMap map = new GameMap();
-        map.putEntity(Creature.spawnRandomEntity(Coordinates.getRandomCoordinate(coordinates)));
-        map.RenderMap();
-        Creature.getTypeOfCreature(map,coordinates).makeMove(map);
-        System.out.println();
-        map.RenderMap();
+        Coordinates coordinates = new Coordinates(1,1);
+        Simulation simulation = new Simulation(10,10);
+        simulation.addInitAction(new PopulateSpawnWorldAction());
+        simulation.addTurnAction(new PopulationMakeMove());
+        simulation.startSimulation();
     }
 }

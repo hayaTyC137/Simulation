@@ -1,18 +1,23 @@
+package Entity.DinamicEntity;
+
+import Entity.Entity;
+import Entity.StaticEntity.Grass;
+import Entity.StaticEntity.Rock;
+import Entity.StaticEntity.Tree;
+import GameMap.Coordinates;
 import java.util.Random;
+import GameMap.GameMap;
+import Entity.TypeOfEntity;
 
 public abstract class Creature extends Entity {
 
     private final int HealthOfCreature = 10;
     private final int SpeedOfCreature = 20;
 
-    public final TypeOfEntity typeOfEntity;
-
     public Creature(Coordinates coordinates, TypeOfEntity typeOfEntity) {
-        super(coordinates);
-        this.typeOfEntity = typeOfEntity;
+        super(coordinates, typeOfEntity);
     }
 
-    public TypeOfEntity getType() { return typeOfEntity; }
 
     public abstract void makeMove(GameMap map);
 
@@ -21,11 +26,14 @@ public abstract class Creature extends Entity {
         return values[new Random().nextInt(values.length)];
     }
 
-    public static Creature spawnRandomEntity(Coordinates coordinates) {
+    public static Entity spawnRandomEntity(Coordinates coordinates) {
         TypeOfEntity typeOfEntity = getRandomTypeOfEntity();
         return switch (typeOfEntity){
-            case HERBIVORE -> new Herbivore(coordinates, typeOfEntity);
-            case PREDATOR -> new Predator(coordinates, typeOfEntity);
+            case TypeOfEntity.HERBIVORE -> new Herbivore(coordinates, typeOfEntity);
+            case TypeOfEntity.PREDATOR -> new Predator(coordinates, typeOfEntity);
+            case TypeOfEntity.GRASS -> new Grass(coordinates, typeOfEntity);
+            case TypeOfEntity.ROCK -> new Rock(coordinates, typeOfEntity);
+            case TypeOfEntity.TREE -> new Tree(coordinates, typeOfEntity);
         };
     }
     public static Creature getTypeOfCreature(GameMap gameMap, Coordinates coordinates) {
@@ -35,4 +43,5 @@ public abstract class Creature extends Entity {
         }
         return null; // Если в этой клетке нет существа
     }
+
 }

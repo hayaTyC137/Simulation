@@ -1,7 +1,10 @@
+package GameMap;
+
 import java.util.Objects;
 import java.util.Random;
 
 public class Coordinates {
+    static Random random = new Random();
     private int coordinateX;
     private int coordinateY;
 
@@ -15,6 +18,7 @@ public class Coordinates {
     public int getCoordinateY() {
         return coordinateY;
     }
+
     public void setCoordinates(int coordinateX, int coordinateY) {
         this.coordinateX = coordinateX;
         this.coordinateY = coordinateY;
@@ -23,10 +27,20 @@ public class Coordinates {
     public String toString() {
         return "(" + coordinateX + ", " + coordinateY + ")";
     }
+
     public static Coordinates getRandomCoordinate(Coordinates coordinates) {
         Random random = new Random();
         coordinates.setCoordinates(random.nextInt(coordinates.getCoordinateX()), random.nextInt(coordinates.getCoordinateY()));
         return coordinates;
+    }
+    public static Coordinates getRandomFreeCoordinate(GameMap map, int width, int height) {
+        Coordinates coord;
+        do {
+            int x = random.nextInt(height);
+            int y = random.nextInt(width);
+            coord = new Coordinates(x, y);
+        } while (map.getEntityAt(coord) != null); // пока не найдём свободную клетку
+        return coord;
     }
 
 
